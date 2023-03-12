@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+    <Version>0.1.0</Version>
+    <Authors>Diego Souza</Authors>
+    <Company>Ultravioleta</Company>
+    <Description>HttpClientMock is a library to help you to easily setup a `HttpClient` mock for inject as dependency in your dotnet unit tests</Description>
+    <Summary>Easily create a `HttpClient` instance with a controlled request-response flow to be used in unit tests</Summary>
+    <PackageId>HttpClientMock</PackageId>
+    <PackageTags>HttpClient;HttpClient Mock;Mock;Unit Tests;Fake HttpClient;Stub;Fake;TDD</PackageTags>
+    <PackageProjectUrl>https://github.com/diegorafael/httpclientmock</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+</Project>

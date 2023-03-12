@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpClientMock", "HttpClientMock\HttpClientMock.csproj", "{96FE07FC-35F7-4181-A2FC-D8FBF08C0F4C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpClientMockTests", "HttpClientMockTests\HttpClientMockTests.csproj", "{6B52D6D8-7785-43B3-B48C-52811578AAF5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{96FE07FC-35F7-4181-A2FC-D8FBF08C0F4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96FE07FC-35F7-4181-A2FC-D8FBF08C0F4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96FE07FC-35F7-4181-A2FC-D8FBF08C0F4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96FE07FC-35F7-4181-A2FC-D8FBF08C0F4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B52D6D8-7785-43B3-B48C-52811578AAF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B52D6D8-7785-43B3-B48C-52811578AAF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B52D6D8-7785-43B3-B48C-52811578AAF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B52D6D8-7785-43B3-B48C-52811578AAF5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A3867741-AB32-47BA-B924-4143A05EEFF0}
+	EndGlobalSection
+EndGlobal
