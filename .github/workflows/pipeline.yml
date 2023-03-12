@@ -11,9 +11,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Setup GitVersion
-        uses: gittools/actions-setup-gitversion@v0.9.5
+      
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.9.7
+        with:
+          versionSpec: '5.x'
 
       - name: Update version
         if: ${{ github.event_name == 'push' }}
