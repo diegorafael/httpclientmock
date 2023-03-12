@@ -28,7 +28,4 @@ jobs:
         run: dotnet pack ./src -c Release --include-symbols -o nuget /p:PackageVersion=$(gitversion /showvariable NuGetVersionV2)
 
       - name: Publish NuGet package
-        uses: nuget/nuget-setapikey@v1
-        with:
-          api_key: ${{ secrets.NUGET_API_KEY }}
-        run: nuget push nuget/*.nupkg -s https://api.nuget.org/v3/index.json
+        run: dotnet nuget push nuget/*.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_ORG_API_KEY }} --skip-duplicate --no-symbols true
