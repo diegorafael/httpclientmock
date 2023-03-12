@@ -1,0 +1,34 @@
+name: Deploy HttpClientMock package
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup GitVersion
+        uses: gittools/actions-setup-gitversion@v0.9.5
+
+      - name: Update version
+        if: ${{ github.event_name == 'push' }}
+        run: gitversion /updatecsproj
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'
+
+      - name: Build and pack NuGet package
+        run: dotnet pack ./src -c Release --include-symbols -o nuget /p:PackageVersion=$(gitversion /showvariable NuGetVersionV2)
+
+      - name: Publish NuGet package
+        uses: nuget/nuget-setapikey@v1
+        with:
+          api_key: ${{ secrets.NUGET_API_KEY }}
+        run: nuget push nuget/*.nupkg -s https://api.nuget.org/v3/index.json
