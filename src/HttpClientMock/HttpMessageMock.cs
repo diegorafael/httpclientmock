@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -25,6 +26,7 @@ namespace HttpClientMock
         public HttpMethod Method { get; private set; }
         public string Path { get; private set; }
         public ContentFormat ResponseContentFormat { get; private set; }
+        public Stream? StreamResponse { get; private set; }
         public object? ResponseContent { get; private set; }
 
         private HttpStatusCode ResponseStatusCode;
@@ -52,17 +54,22 @@ namespace HttpClientMock
             : this(request, responseCode, null) { }
         
         internal HttpMessageMock(HttpRequestMessage request, HttpStatusCode responseCode, object? responseContent)
-            : this(request.Method, request.RequestUri?.PathAndQuery ?? string.Empty, ContentFormat.Json, responseContent, responseCode) { }
+            : this(request.Method, request.RequestUri?.PathAndQuery ?? string.Empty, ContentFormat.JsonObject, responseContent, responseCode) { }
 
         internal HttpMessageMock(HttpMethod method, string path, object? responseContent, HttpStatusCode responseStatusCode)
-            : this(method, path, ContentFormat.Json, responseContent, responseStatusCode) { }
+            : this(method, path, ContentFormat.JsonObject, responseContent, responseStatusCode) { }
 
-        internal HttpMessageMock(HttpMethod method, string path, ContentFormat responseContentFormat, object? responseContent, HttpStatusCode responseStatusCode)
+        internal HttpMessageMock(HttpMethod method, string path, ContentFormat responseContentFormat, object? objectResponseContent, HttpStatusCode responseStatusCode)
         {
             Method = method;
             Path = new Uri(Helpers.DEFAULT_BASE_URL).Combine(path).PathAndQuery;
             ResponseContentFormat = responseContentFormat;
-            ResponseContent = responseContent;
+            if (objectResponseContent is Stream stream)
+                StreamResponse = stream;
+            else
+                StreamResponse = null;
+
+            ResponseContent = objectResponseContent;
             ResponseStatusCode = responseStatusCode;
         }
 
@@ -79,9 +86,9 @@ namespace HttpClientMock
         }
 
         public static HttpMessageMock Get(string path, object response)
-            => new HttpMessageMock(HttpMethod.Get, path, ContentFormat.Json, response, HttpStatusCode.OK);
+            => new HttpMessageMock(HttpMethod.Get, path, ContentFormat.JsonObject, response, HttpStatusCode.OK);
         public static HttpMessageMock Post(string path, object response)
-            => new HttpMessageMock(HttpMethod.Post, path, ContentFormat.Json, response, HttpStatusCode.Created);
+            => new HttpMessageMock(HttpMethod.Post, path, ContentFormat.JsonObject, response, HttpStatusCode.Created);
 
         internal HttpResponseMessage AsHttpResponseMessage()
         {
@@ -103,9 +110,13 @@ namespace HttpClientMock
 
             switch (ResponseContentFormat)
             {
-                case ContentFormat.Json:
+                case ContentFormat.JsonObject:
                     responseContent = JsonConvert.SerializeObject(ResponseContent ?? new { });
                     break;
+                case ContentFormat.ByteStream:
+                    if (StreamResponse == null)
+                        throw new InvalidOperationException($"The {nameof(ResponseContent)} must be of the type {nameof(Stream)} to be able to create a {nameof(StreamContent)}.");
+                    return new StreamContent(StreamResponse);
                 default:
                     throw new NotImplementedException();
             }

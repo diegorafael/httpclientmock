@@ -2,7 +2,8 @@
 {
     public enum ContentFormat
     {
-        Json
+        JsonObject,
+        ByteStream
     }
 
     public enum Behavior
